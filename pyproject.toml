@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "docfail"
+version = "0.1.0"
+description = "Failure-mode analysis of document field extraction under real-world image degradation"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+dependencies = [
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "pillow>=10.3",
+    "opencv-python-headless>=4.10",
+    "python-dateutil>=2.9",
+    "tenacity>=8.3",
+    "diskcache>=5.6",
+    "typer>=0.12",
+    "rich>=13.7",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2",
+    "pytest-cov>=5.0",
+    "ruff>=0.5",
+    "mypy>=1.10",
+    "pip-audit>=2.7",
+]
+
+[project.scripts]
+docfail = "docfail.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/docfail"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src/docfail"]
